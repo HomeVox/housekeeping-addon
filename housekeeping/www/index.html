@@ -23,22 +23,22 @@
             align-items: center;
             gap: 12px;
             margin-bottom: 30px;
+            flex-wrap: wrap;
         }
 
-        .brand-logo {
-            height: 44px;
-            width: auto;
-            border-radius: 8px;
-            box-shadow: 0 0 0 1px #1f1f1f;
-            background: #0d0d0d;
+        .brand-name {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+            color: #f3f3f3;
         }
 
         .brand-subtitle {
             color: #666;
         }
 
-        @media (max-width: 480px) {
-            .brand-logo { height: 38px; }
+        .vox {
+            color: #03a9f4;
         }
 
         .card {
@@ -302,8 +302,8 @@
     <div class="container">
         <h1>Housekeeping</h1>
         <div class="brand">
-            <img class="brand-logo" src="./logo.png" alt="HomeVox" />
-            <div class="brand-subtitle">by Home<span style="color: #03a9f4;">Vox</span>.nl</div>
+            <div class="brand-name">Home<span class="vox">Vox</span></div>
+            <div class="brand-subtitle">by Home<span class="vox">Vox</span>.nl</div>
         </div>
 
         <!-- System Status -->
