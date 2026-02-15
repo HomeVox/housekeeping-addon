@@ -3,6 +3,7 @@
 import json
 import logging
 import os
+import shutil
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -92,11 +93,28 @@ def init_components() -> None:
         )
 
     # Create engine
+    # Prefer storing state under /config so it survives add-on uninstall/reinstall.
+    data_dir = "/config/ha_housekeeping"
+    os.makedirs(data_dir, exist_ok=True)
+
+    # One-time best-effort migration from old /data location.
+    # /data persists across updates, but not across uninstall/reinstall.
+    legacy_dir = "/data"
+    for name in ("plan.json", "rollback.json", "ignored.json"):
+        src = os.path.join(legacy_dir, name)
+        dst = os.path.join(data_dir, name)
+        try:
+            if os.path.exists(src) and not os.path.exists(dst):
+                shutil.copy2(src, dst)
+                logger.info("Migrated %s -> %s", src, dst)
+        except Exception as e:
+            logger.warning("Failed migrating %s -> %s: %s", src, dst, e)
+
     engine = HousekeeperEngine(
         ha=ha,
         onbekend_area_name=str(options.get("onbekend_area_name", "Onbekend")),
         confidence_threshold=float(options.get("confidence_threshold", 0.9)),
-        data_dir="/data",
+        data_dir=data_dir,
     )
 
     _components = Components(ha=ha, engine=engine)

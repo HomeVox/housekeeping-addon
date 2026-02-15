@@ -20,7 +20,7 @@ RUN chmod a+x /run.sh
 
 # Labels
 LABEL io.hass.name="Housekeeping"
-LABEL io.hass.version="2.0.19"
+LABEL io.hass.version="2.0.20"
 LABEL io.hass.type="addon"
 
 CMD ["/run.sh"]

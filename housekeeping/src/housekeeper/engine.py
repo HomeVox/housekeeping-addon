@@ -982,10 +982,19 @@ class HousekeeperEngine:
                     {
                         "type": "entity_update",
                         "entity_id": entity_id,
-                        "before": {"hidden_by": before.get("hidden_by")},
+                        # Roll back both fields if present; HA ignores unknown keys.
+                        "before": {
+                            "hidden_by": before.get("hidden_by"),
+                            "disabled_by": before.get("disabled_by"),
+                        },
                     }
                 )
-                await self.ha.entity_update(entity_id=entity_id, hidden_by=hidden_by)
+                # HA has changed "hide" semantics over time. Prefer hidden_by,
+                # but fall back to disabled_by if hidden_by is not supported.
+                try:
+                    await self.ha.entity_update(entity_id=entity_id, hidden_by=hidden_by)
+                except Exception:
+                    await self.ha.entity_update(entity_id=entity_id, disabled_by=hidden_by)
                 applied.append(aid)
                 continue
 

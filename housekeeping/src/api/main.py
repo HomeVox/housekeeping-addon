@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan handler."""
-    logger.info("Starting Housekeeping v2.0.19")
+    logger.info("Starting Housekeeping v2.0.20")
     try:
         init_components()
         logger.info("Components initialized")
@@ -33,7 +33,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="Housekeeping",
     description="Automated Home Assistant housekeeping",
-    version="2.0.19",
+    version="2.0.20",
     lifespan=lifespan,
     docs_url=None,
     redoc_url=None,

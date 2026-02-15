@@ -1,5 +1,5 @@
 name: Housekeeping
-version: 2.0.19
+version: 2.0.20
 slug: housekeeping
 description: Automated HA housekeeping by HomeVox - Clean entities, fix areas, organize
   configs
