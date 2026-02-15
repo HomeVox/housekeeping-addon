@@ -1,0 +1,44 @@
+# HA Housekeeper rules (default, safe)
+#
+# Override at runtime by creating one of:
+# - /config/ha_housekeeper/rules.yaml   (recommended)
+# - /config/ha_housekeeper_rules.yaml
+#
+# Rules are deterministic. Anything destructive should keep requires_approval: true.
+
+area_renames: []
+
+entity_remove:
+  ids: []
+  regex: []
+
+entity_hide:
+  ids: []
+  regex: []
+
+# Assign areas based on entity_id regex. Does not overwrite effective area by default.
+entity_area: []
+
+# Assign areas based on device name regex. Does not overwrite device area by default.
+device_area: []
+
+# Keyword rules used when an entity has no effective area and the keyword appears in entity_id/name.
+helper_area_rules: []
+
+# Examples (copy into your override file and adjust):
+#
+# area_renames:
+#   - from: "Veranda"
+#     to: "Terras"
+#     requires_approval: true
+#
+# entity_remove:
+#   regex:
+#     - pattern: "^sensor\\.my_integration_.*_([2-9]|[1-9][0-9]+)$"
+#       requires_approval: true
+#
+# entity_area:
+#   - pattern: "^(sensor|input_number)\\.(gas|electricity|energy|usage|meter).*"
+#     area: "Utility Closet"
+#     overwrite: false
+#     requires_approval: true

@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+.Python
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Virtualenvs
+.venv/
+venv/
+
+# Editors
+.idea/
+.vscode/
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# Local build artifacts / ad-hoc files
+*.log
+*.tmp
+*.new.png
+*.tmp.png
+*.orig.png
+

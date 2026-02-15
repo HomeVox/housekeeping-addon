@@ -1,0 +1,6 @@
+# Core dependencies (matching Alpine packages where possible)
+fastapi==0.110.0
+uvicorn[standard]==0.27.1
+pydantic==2.6.1
+pyyaml==6.0.1
+websockets==12.0
