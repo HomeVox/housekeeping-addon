@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 import re
 import uuid
@@ -9,6 +10,8 @@ from .ha_ws import HAWebSocketClient
 from .model import Action, asdict_action
 from .rules import load_rules
 from .util import is_suffix_duplicate_entity, tokenize
+
+logger = logging.getLogger(__name__)
 
 
 def _now_iso() -> str:
@@ -992,6 +995,7 @@ class HousekeeperEngine:
                 # HA has changed "hide" semantics over time.
                 # Prefer hidden_by, but verify it actually applied; otherwise fall back to disabled_by.
                 hidden_applied = False
+                disabled_applied = False
                 try:
                     await self.ha.entity_update(entity_id=entity_id, hidden_by=hidden_by)
                     try:
@@ -1008,6 +1012,26 @@ class HousekeeperEngine:
 
                 if not hidden_applied:
                     await self.ha.entity_update(entity_id=entity_id, disabled_by="user")
+                    try:
+                        after_entities = await self.ha.entity_list()
+                        after = next(
+                            (e for e in after_entities if e.get("entity_id") == entity_id), None
+                        )
+                        disabled_applied = bool(after and after.get("disabled_by") == "user")
+                    except Exception:
+                        disabled_applied = True
+
+                if not hidden_applied and not disabled_applied:
+                    skipped.append({"id": aid, "reason": "hide not applied by Home Assistant"})
+                    logger.warning("Hide entity did not apply: %s", entity_id)
+                    continue
+
+                logger.info(
+                    "Hide entity applied: entity_id=%s hidden_by=%s disabled_by=%s",
+                    entity_id,
+                    "user" if hidden_applied else "",
+                    "user" if (not hidden_applied and disabled_applied) else "",
+                )
                 applied.append(aid)
                 continue
 

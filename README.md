@@ -12,12 +12,12 @@
   <a href="https://github.com/HomeVox/housekeeping-addon/actions/workflows/ci.yml">
     <img src="https://github.com/HomeVox/housekeeping-addon/actions/workflows/ci.yml/badge.svg" alt="CI" />
   </a>
-  <img src="https://img.shields.io/badge/version-2.0.21-blue" alt="Version 2.0.21" />
+  <img src="https://img.shields.io/badge/version-2.0.22-blue" alt="Version 2.0.22" />
   <img src="https://img.shields.io/badge/license-MIT-green" alt="MIT License" />
   <img src="https://img.shields.io/badge/type-Home%20Assistant%20Add--on-41BDF5" alt="Home Assistant Add-on" />
 </p>
 
-**Version:** 2.0.21  
+**Version:** 2.0.22  
 **Made by:** [HomeVox.nl](https://homevox.nl)
 
 Housekeeping helps you keep your Home Assistant tidy by scanning your registries, proposing changes, and letting you
