@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./logo.png" width="220" alt="Housekeeping by HomeVox" />
+  <img src="./housekeeping/logo.png" width="220" alt="Housekeeping by HomeVox" />
 </p>
 
 <h1 align="center">Housekeeping by HomeVox</h1>
@@ -36,7 +36,7 @@ Works great as a periodic maintenance tool after migrations, device swaps, or lo
 ## Installation
 
 1. Add this repository in Home Assistant:
-   - Settings -> Add-ons -> Add-on Store -> ⋮ -> Repositories
+   - Settings -> Add-ons -> Add-on Store -> ... -> Repositories
    - Add: `https://github.com/HomeVox/housekeeping-addon`
 2. Install the **Housekeeping** add-on.
 3. Enable **Start on boot** and **Watchdog** (recommended).
@@ -82,4 +82,3 @@ Pull requests are welcome. The repo includes:
 ## License
 
 MIT License
-

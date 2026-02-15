@@ -1,0 +1,61 @@
+name: Housekeeping
+version: 2.0.19
+slug: housekeeping
+description: Automated HA housekeeping by HomeVox - Clean entities, fix areas, organize
+  configs
+url: https://github.com/HomeVox/housekeeping-addon
+startup: services
+boot: auto
+init: false
+arch:
+- amd64
+- aarch64
+- armv7
+- armhf
+- i386
+map:
+- config:rw
+- share:rw
+- ssl:ro
+- addons:ro
+options:
+  onbekend_area_name: Onbekend
+  confidence_threshold: 0.9
+  log_level: info
+schema:
+  onbekend_area_name: str
+  confidence_threshold: float(0.5,1.0)
+  log_level: list(trace|debug|info|notice|warning|error|fatal)
+ingress: true
+ingress_port: 8001
+ingress_entry: /
+panel_icon: mdi:broom
+panel_title: Housekeeping
+panel_admin: true
+homeassistant_api: true
+hassio_api: true
+hassio_role: homeassistant
+auth_api: true
+hassio_nfc: false
+host_network: false
+ports:
+  8001/tcp: null
+ports_description:
+  8001/tcp: Internal API port (not exposed externally)
+webui: http://[HOST]:[PORT:8001]/
+services: []
+discovery: []
+backup: hot
+stdin: false
+legacy: false
+timeout: 30
+usb: false
+udev: false
+uart: false
+kernel_modules: false
+devices: []
+privileged: []
+full_access: false
+apparmor: true
+audio: false
+gpio: false
