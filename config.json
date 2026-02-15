@@ -3,7 +3,7 @@
   "version": "2.0.19",
   "slug": "housekeeping",
   "description": "Automated HA housekeeping by HomeVox - Clean entities, fix areas, organize configs",
-  "url": "https://github.com/MAIthijs/ha-housekeeper",
+  "url": "https://github.com/HomeVox/housekeeping-addon",
   "startup": "services",
   "boot": "auto",
   "init": false,

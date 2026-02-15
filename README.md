@@ -17,7 +17,7 @@ Automated housekeeping for Home Assistant - clean entities, fix areas, organize 
 Add repository in HA:
 ```
 Settings → Add-ons → Add-on Store → ⋮ → Repositories
-Add: https://github.com/MAIthijs/housekeeping-addon
+Add: https://github.com/HomeVox/housekeeping-addon
 ```
 
 Install **Housekeeping** add-on.
