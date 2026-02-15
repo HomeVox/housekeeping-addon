@@ -989,12 +989,25 @@ class HousekeeperEngine:
                         },
                     }
                 )
-                # HA has changed "hide" semantics over time. Prefer hidden_by,
-                # but fall back to disabled_by if hidden_by is not supported.
+                # HA has changed "hide" semantics over time.
+                # Prefer hidden_by, but verify it actually applied; otherwise fall back to disabled_by.
+                hidden_applied = False
                 try:
                     await self.ha.entity_update(entity_id=entity_id, hidden_by=hidden_by)
+                    try:
+                        after_entities = await self.ha.entity_list()
+                        after = next(
+                            (e for e in after_entities if e.get("entity_id") == entity_id), None
+                        )
+                        hidden_applied = bool(after and after.get("hidden_by") == hidden_by)
+                    except Exception:
+                        # If we can't verify, assume hidden_by worked (don't unexpectedly disable).
+                        hidden_applied = True
                 except Exception:
-                    await self.ha.entity_update(entity_id=entity_id, disabled_by=hidden_by)
+                    hidden_applied = False
+
+                if not hidden_applied:
+                    await self.ha.entity_update(entity_id=entity_id, disabled_by="user")
                 applied.append(aid)
                 continue
 
