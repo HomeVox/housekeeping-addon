@@ -80,6 +80,11 @@ def _media_base_label(entity_id: str, friendly: str) -> str:
     return "Media"
 
 
+def _is_hidden_or_disabled(entity_reg: dict[str, Any]) -> bool:
+    # HA registry marks "hidden" via hidden_by and/or disabled_by depending on version/features.
+    return bool(entity_reg.get("hidden_by") or entity_reg.get("disabled_by"))
+
+
 class HousekeeperEngine:
     def __init__(
         self,
@@ -332,6 +337,7 @@ class HousekeeperEngine:
 
         # Explicit entity removals/hides from rules.
         entity_ids = {e.get("entity_id") for e in entities if e.get("entity_id")}
+        entity_reg_by_id = {e.get("entity_id"): e for e in entities if e.get("entity_id")}
 
         erem = rules.get("entity_remove", {}) or {}
         for eid in erem.get("ids", []) or []:
@@ -378,6 +384,8 @@ class HousekeeperEngine:
         for eid in ehide.get("ids", []) or []:
             if not isinstance(eid, str):
                 continue
+            if _is_hidden_or_disabled(entity_reg_by_id.get(eid, {})):
+                continue
             if eid in entity_ids and eid not in planned_entity_hide:
                 actions.append(
                     Action(
@@ -401,6 +409,8 @@ class HousekeeperEngine:
             req = bool(rr.get("requires_approval", True))
             for eid in sorted([x for x in entity_ids if isinstance(x, str)]):
                 if eid in planned_entity_hide:
+                    continue
+                if _is_hidden_or_disabled(entity_reg_by_id.get(eid, {})):
                     continue
                 if rx.search(eid):
                     actions.append(
@@ -608,6 +618,8 @@ class HousekeeperEngine:
             kept = sorted(eids)[0]
             for eid in sorted(eids)[1:]:
                 if eid in planned_entity_hide or eid in planned_entity_remove:
+                    continue
+                if _is_hidden_or_disabled(entity_reg_by_id.get(eid, {})):
                     continue
                 actions.append(
                     Action(
